@@ -1,6 +1,6 @@
 bin/
 obj/
 diagram/
-xml*
+.xml*
 PersonalBudget.mm
-personalBuget.*
+personalBudget.*
