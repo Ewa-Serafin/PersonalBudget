@@ -12,6 +12,7 @@ class AuxiliaryMethods {
 public:
     static string readLine();
     static string convertIntToString(int number);
+    static char readCharacter();
 
 };
 
