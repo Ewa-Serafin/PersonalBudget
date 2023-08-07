@@ -11,7 +11,7 @@ using namespace std;
 class AuxiliaryMethods {
 public:
     static string readLine();
-
+    static string convertIntToString(int number);
 
 };
 
