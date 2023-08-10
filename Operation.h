@@ -15,8 +15,16 @@ class Operation{
     double amount;
 
     public:
-    Operation(int date = 0, int OperationID = 0, int userID = 0, string item = "", double amount = 0):
-        date(date), operationID(operationID), userID(userID), item(item), amount(amount) {}
+    //Operation(int date = 0, int OperationID = 0, int userID = 0, string item = "", double amount = 0):
+     //   date(date), operationID(operationID), userID(userID), item(item), amount(amount) {}
+   Operation(int date = 0, int transactionID = 0, int userID = 0, string item = "", double amount = 0)
+    {
+        this->date = date;
+        this->operationID = operationID;
+        this->userID = userID;
+        this->item = item;
+        this->amount = amount;
+    }
 
     bool operator < (const Operation& other) const
     {

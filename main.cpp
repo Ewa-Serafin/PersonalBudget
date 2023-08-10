@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#include "PersonalBudget.h"
+#include "MainSettings.h"
 #include "Menus.h"
 
 int main() {

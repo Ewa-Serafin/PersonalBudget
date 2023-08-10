@@ -28,3 +28,24 @@ char AuxiliaryMethods::readCharacter() {
     }
     return character;
 }
+
+ string AuxiliaryMethods::dateToDispalyFormat(string date)
+{
+    if (date.length() != 8)
+        return date;
+
+    string year = date.substr(0, 4);
+    string month = date.substr(4, 2);
+    string day = date.substr(6, 2);
+
+    return day + "-" + month + "-" + year;
+}
+
+string AuxiliaryMethods::dateToStoreFormat(string date)
+{
+    string dateToStore = "";
+
+    dateToStore = date.substr(0, 4) + date.substr(5, 2) + date.substr(8, 2);
+
+    return dateToStore;
+}
