@@ -1,5 +1,5 @@
-#ifndef PERSONALBUDGET_H
-#define PERSONALBUDGET_H
+#ifndef MAINSETTINGS_H
+#define MAINSETTINGS_H
 
 #include <iostream>
 
@@ -9,13 +9,13 @@
 
 using namespace std;
 
-class PersonalBudget {
+class MainSettings {
 
     UserManager userManager;
 
 
 public:
-    PersonalBudget(string usersXMLFileName)
+    MainSettings(string usersXMLFileName)
         : userManager(usersXMLFileName){};
 
     bool isUserLoggedIn();

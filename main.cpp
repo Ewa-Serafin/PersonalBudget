@@ -9,19 +9,19 @@ int main() {
 
     char choice;
 
-    PersonalBudget personalBudget("Users");
+    MainSettings MainSettings("Users");
 
     while (true) {
-        if (!personalBudget.isUserLoggedIn()) {
+        if (!MainSettings.isUserLoggedIn()) {
 
             choice = Menus::chooseOptionFromMainMenu();
 
             switch (choice) {
             case '1':
-                personalBudget.registerUser();
+                MainSettings.registerUser();
                 break;
             case '2':
-                personalBudget.logIn();
+                MainSettings.logIn();
                 break;
             case '9':
                 exit(0);
@@ -33,34 +33,31 @@ int main() {
 
             }
 
-        } /*else {
+        } else {
 
-            wybor = WyswietlMenu::wybierzOpcjeZMenuUzytkownika();
+            choice = Menus::chooseOptionFromUserMenu();
 
-            switch (wybor) {
+            switch (choice) {
             case '1':
-                ksiazkaAdresowa.dodajAdresata();
+              //  MainSettings.addIncome();
                 break;
             case '2':
-                ksiazkaAdresowa.wyszukajAdresatowPoImieniu();
+               // MainSettings.addExpese();
                 break;
             case '3':
-                ksiazkaAdresowa.wyszukajAdresatowPoNazwisku();
+              //  MainSettings.currentMonthBalance();
                 break;
             case '4':
-                ksiazkaAdresowa.wyswietlWszystkichAdresatow();
+              //  MainSettings.displayLastMonthIncomeBalance();
                 break;
             case '5':
-                ksiazkaAdresowa.usunAdresata();
+               // MainSettings.displayIncomeBalanceFromSelectedDates();
                 break;
             case '6':
-                ksiazkaAdresowa.edytujAdresata();
+                MainSettings.changePassword();
                 break;
             case '7':
-                ksiazkaAdresowa.zmianaHaslaZalogowanegoUzytkownika();
-                break;
-            case '8':
-                ksiazkaAdresowa.wylogujUzytkownika();
+                MainSettings.logOut();
                 break;
             }
         }
@@ -70,7 +67,7 @@ int main() {
 
 
 
- Funkcja do porównywania dat (od-do)
+/* Funkcja do porównywania dat (od-do)
 bool isDateInRange(const tm& dateToCheck, const tm& startDate, const tm& endDate) {
     tm dateCheck = dateToCheck;
     dateCheck.tm_hour = dateCheck.tm_min = dateCheck.tm_sec = 0;
@@ -142,8 +139,8 @@ xml.AddElem( "Login", "mat" );
 xml.AddElem( "Password", "456" );
 
 xml.Save("users.xml");
-*/
+
 }
     return 0;
 }
-
+*/

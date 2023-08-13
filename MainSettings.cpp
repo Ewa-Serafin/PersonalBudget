@@ -1,24 +1,24 @@
-#include "PersonalBudget.h"
+#include "MainSettings.h"
 
-bool PersonalBudget::isUserLoggedIn() {
+bool MainSettings::isUserLoggedIn() {
 
     return userManager.isUserLoggedIn();
 }
 
-void PersonalBudget::registerUser() {
+void MainSettings::registerUser() {
     userManager.registerUser();
 }
 
-void PersonalBudget::logIn() {
+void MainSettings::logIn() {
     userManager.logIn();
 
 }
 
-void PersonalBudget::changePassword() {
+void MainSettings::changePassword() {
     userManager.changePassword();
 }
 
-void PersonalBudget::logOut() {
+void MainSettings::logOut() {
     userManager.logOut();
 
 }
