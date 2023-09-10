@@ -5,30 +5,32 @@
 #include <vector>
 #include <cstdlib>
 #include <string>
+
 #include "Markup.h"
 #include "Operation.h"
 #include "AuxiliaryMethods.h"
 #include "XMLFile.h"
+#include "DateMethods.h"
 
 using namespace std;
 
 class OperationXML : public XMLFile
+
 {
     int lastOperationID;
-    string operationsXMLFileName;
 
 public:
 
-    OperationXML(string operationsXMLFileNameParam)
-        : XMLFile(operationsXMLFileNameParam), operationsXMLFileName(operationsXMLFileNameParam)
-    {
-        lastOperationID = 0;
-    };
+    OperationXML(string operationXMLFileName): XMLFile(operationXMLFileName) {
+      lastOperationID = 0;
+    }
 
-    vector <Operation> loadOperationsFromXMLFile();
-    void addOperationToXMLFile(Operation operation);
-    int getLastOperationID();
-
+    vector <Operation> loadOperationsFromXMLFile(const int loggedInUserId);
+    bool addOperationToXMLFile(Operation &operation);
+    int getLastOperationID(const int loggedInUserId);
 };
 
 #endif
+
+
+

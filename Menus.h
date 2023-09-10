@@ -13,5 +13,4 @@ public:
     static char chooseOptionFromMainMenu();
     static char chooseOptionFromUserMenu();
 };
-
 #endif

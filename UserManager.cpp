@@ -1,10 +1,5 @@
 #include "UserManager.h"
 
-UserManager::UserManager(string usersXMLNameFile) : usersXMLFile(usersXMLNameFile){
-    loggedInUserId = 0;
-    users = usersXMLFile.loadUsersFromXMLFile();
-}
-
 void UserManager::registerUser() {
     User user = insertNewUserData();
 
@@ -14,7 +9,6 @@ void UserManager::registerUser() {
     cout << endl << "Account created successfully." << endl << endl;
     system("pause");
 }
-
 
 void UserManager::logIn() {
     User user;
@@ -33,7 +27,7 @@ void UserManager::logIn() {
                 if (itr -> getPassword() == password) {
                     cout << endl << "Logged in." << endl << endl;
                     system("pause");
-                    loggedInUserId = itr -> getId();
+                    loggedInUserID = itr -> getUserID();
                     return;
                 }
             }
@@ -49,11 +43,11 @@ void UserManager::logIn() {
 }
 
 int UserManager::getLoggedInUserId() {
-    return loggedInUserId;
+    return loggedInUserID;
 }
 
 bool UserManager::isUserLoggedIn() {
-    return loggedInUserId > 0;
+    return loggedInUserID> 0;
 }
 
 void UserManager::changePassword() {
@@ -62,17 +56,17 @@ void UserManager::changePassword() {
     newPassword = AuxiliaryMethods::readLine();
 
     for (vector <User>::iterator itr = users.begin(); itr != users.end(); itr++) {
-        if (itr -> getId() == loggedInUserId) {
+        if (itr -> getUserID() == loggedInUserID) {
             itr -> setPassword(newPassword);
             cout << "Password has been changed." << endl << endl;
             system("pause");
         }
     }
-   usersXMLFile.changeLoggedUserPasswordInXMLFile(newPassword,loggedInUserId);
+    usersXMLFile.changeLoggedUserPasswordInXMLFile(newPassword,loggedInUserID);
 }
 
 void UserManager::logOut() {
-    loggedInUserId = 0;
+    loggedInUserID = 0;
     cout << "Successfully logged out." << endl;
     Sleep(1000);
 }
@@ -80,7 +74,7 @@ void UserManager::logOut() {
 User UserManager::insertNewUserData() {
     User user;
 
-    user.setId(getNewUserId());
+    user.setUserID(getNewUserId());
 
     string login;
     do {
@@ -94,12 +88,12 @@ User UserManager::insertNewUserData() {
     cin >> password;
     user.setPassword(password);
 
-     string name;
+    string name;
     cout << "Enter name: ";
     cin >> name;
     user.setName(name);
 
-     string lastname;
+    string lastname;
     cout << "Enter lastname: ";
     cin >> lastname;
     user.setLastname(lastname);
@@ -107,12 +101,11 @@ User UserManager::insertNewUserData() {
     return user;
 }
 
-
 int  UserManager::getNewUserId() {
     if (users.empty() == true)
         return 1;
     else
-        return users.back().getId() + 1;
+        return users.back().getUserID() + 1;
 }
 
 bool UserManager::isLoginExsist(string login) {

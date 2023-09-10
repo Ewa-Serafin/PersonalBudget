@@ -3,19 +3,18 @@
 
 #include <iostream>
 #include <sstream>
-//#include <algorithm>
-
+#include <iomanip>
 
 using namespace std;
 
 class AuxiliaryMethods {
+
 public:
+    static string replaceCommaWithDot(string& text);
     static string readLine();
-    static string convertIntToString(int number);
     static char readCharacter();
-    static string dateToDispalyFormat(string date);
-    static string dateToStoreFormat(string date);
-
+    static string convertIntToString(int number);
+    static string convertDoubleToString(double number);
+    static int convertStringToInt(string number);
 };
-
 #endif

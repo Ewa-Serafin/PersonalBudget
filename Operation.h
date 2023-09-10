@@ -4,46 +4,34 @@
 #include <iostream>
 
 using namespace std;
+#include "OperationType.h"
 
-
-class Operation{
+class Operation {
 
     int date;
     int operationID;
     int userID;
     string item;
     double amount;
+    OperationType type;
 
-    public:
-    //Operation(int date = 0, int OperationID = 0, int userID = 0, string item = "", double amount = 0):
-     //   date(date), operationID(operationID), userID(userID), item(item), amount(amount) {}
-   Operation(int date = 0, int transactionID = 0, int userID = 0, string item = "", double amount = 0)
-    {
-        this->date = date;
-        this->operationID = operationID;
-        this->userID = userID;
-        this->item = item;
-        this->amount = amount;
-    }
-
-    bool operator < (const Operation& other) const
-    {
-        return (date < other.date);
-    }
+public:
 
     void setDate(int newDate);
     void setOperationID(int newOperationID);
     void setUserID(int newUserID);
     void setItem(string newItem);
     void setAmount(double newAmount);
+    void setType(OperationType newType);
 
-    int getDate();
-    int getOperationID();
-    int getUserID();
-    string getItem();
-    double getAmount();
+    int getDate()const;
+    int getOperationID()const;
+    int getUserID()const;
+    string getItem()const;
+    double getAmount() const;
+    OperationType getType() const;
+
+    //bool operator<(const Operation& other) const;
 };
-
-
 
 #endif

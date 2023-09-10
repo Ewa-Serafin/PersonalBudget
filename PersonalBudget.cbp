@@ -44,6 +44,7 @@
 		<Unit filename="User.h" />
 		<Unit filename="UserManager.cpp" />
 		<Unit filename="UserManager.h" />
+		<Unit filename="Users.xml" />
 		<Unit filename="UsersXMLFile.cpp" />
 		<Unit filename="UsersXMLFile.h" />
 		<Unit filename="XMLFile.cpp" />

@@ -1,4 +1,3 @@
-
 #ifndef USERMANAGER_H
 #define USERMANAGER_H
 
@@ -12,9 +11,8 @@
 
 using namespace std;
 
-class UserManager
-{
-    int loggedInUserId;
+class UserManager {
+    int loggedInUserID;
     vector <User> users;
     UsersXMLFile usersXMLFile;
 
@@ -24,7 +22,10 @@ class UserManager
     void clearUsers();
 
 public:
-    UserManager(string usersXMLNameFile);
+    UserManager(string usersXMLNameFile) : usersXMLFile(usersXMLNameFile) {
+        loggedInUserID = 0;
+        users = usersXMLFile.loadUsersFromXMLFile();
+    }
 
     void registerUser();
     void logIn();

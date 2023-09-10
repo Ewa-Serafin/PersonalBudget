@@ -1,21 +1,23 @@
 #include"UsersXMLFile.h"
 
-void UsersXMLFile::addUserToXMLFile(User user) {
-    string ID = AuxiliaryMethods::convertIntToString(user.getId());
+bool UsersXMLFile::addUserToXMLFile(User user) {
+    string ID = AuxiliaryMethods::convertIntToString(user.getUserID());
     string login = user.getLogin();
     string password = user.getPassword();
     string name = user.getName();
     string lastname = user.getLastname();
     CMarkup xml;
 
-    xml.Load(usersXMLFileName+".xml");
-    if (!XMLFileExists(usersXMLFileName)) {
+    xml.Load(getXMLFileName());
+    if (!XMLFileExists(getXMLFileName())) {
         xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         xml.AddElem("Users");
+        xml.Save(getXMLFileName());
     }
 
     xml.FindElem();
     xml.IntoElem();
+
     xml.AddElem("User");
     xml.IntoElem();
     xml.AddElem("UserID", ID);
@@ -24,7 +26,8 @@ void UsersXMLFile::addUserToXMLFile(User user) {
     xml.AddElem("Name", name);
     xml.AddElem("Lastname", lastname);
 
-    xml.Save(usersXMLFileName+".xml");
+    xml.Save(getXMLFileName());
+    return true;
 }
 
 vector <User> UsersXMLFile::loadUsersFromXMLFile() {
@@ -34,13 +37,17 @@ vector <User> UsersXMLFile::loadUsersFromXMLFile() {
     User user;
     CMarkup xml;
 
-    xml.Load(usersXMLFileName+".xml");
-
-    if (!XMLFileExists(usersXMLFileName))
-        //usersXMLFileName
-    {
+    if (!XMLFileExists(getXMLFileName())) {
         xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         xml.AddElem("Users");
+        xml.Save(getXMLFileName());
+    }
+
+    xml.Load(getXMLFileName());
+
+    if (!xml.Load(getXMLFileName())) {
+        xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
+        xml.AddElem("Operations");
     }
 
     xml.ResetPos();
@@ -49,33 +56,33 @@ vector <User> UsersXMLFile::loadUsersFromXMLFile() {
 
     while ( xml.FindElem("User") ) {
         xml.FindChildElem( "UserID" );
-        id = atoi(xml.GetChildData().c_str());
+        id = stoi(xml.GetChildData());
         xml.ResetChildPos();
         xml.FindChildElem( "Login" );
         login = xml.GetChildData();
         xml.ResetChildPos();
         xml.FindChildElem( "Password" );
         password = xml.GetChildData();
-        //xml.ResetChildPos();
 
-        user.setId(id);
+        user.setUserID(id);
         user.setLogin(login);
         user.setPassword(password);
         users.push_back(user);
     }
+    xml.Save(getXMLFileName());
 
-    xml.Save(usersXMLFileName+".xml");
-
+    cout << "Users loaded successfully." << endl;
     return users;
 }
 
 void UsersXMLFile::changeLoggedUserPasswordInXMLFile(string newPassword,int loggedUserID) {
     CMarkup xml;
 
-    xml.Load(usersXMLFileName+".xml");
-    if (!XMLFileExists(usersXMLFileName)) {
+    xml.Load(getXMLFileName());
+    if (!XMLFileExists(getXMLFileName())) {
         xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         xml.AddElem("Users");
+        xml.Save(getXMLFileName());
     }
 
     xml.ResetPos();
@@ -84,12 +91,12 @@ void UsersXMLFile::changeLoggedUserPasswordInXMLFile(string newPassword,int logg
 
     while ( xml.FindElem("User") ) {
         xml.FindChildElem( "UserID" );
-        if(atoi(xml.GetChildData().c_str()) == loggedUserID) {
+        if(stoi(xml.GetChildData()) == loggedUserID) {
             xml.ResetChildPos();
             xml.FindChildElem( "Password" );
             xml.RemoveChildElem();
             xml.AddChildElem("Password", newPassword);
         }
     }
-    xml.Save(usersXMLFileName+".xml");
+    xml.Save(getXMLFileName());
 }

@@ -15,15 +15,12 @@ using namespace std;
 
 class UsersXMLFile : public XMLFile {
 
-    string usersXMLFileName;
-
 public:
-    UsersXMLFile(string usersXMLFileName)
-        : XMLFile (usersXMLFileName) {}; //, usersXMLFileName(usersXMLFileName){};
+    UsersXMLFile(string XMLFileName): XMLFile (XMLFileName) {};
 
     vector <User> loadUsersFromXMLFile();
-    void addUserToXMLFile(User user);
-    void changeLoggedUserPasswordInXMLFile(string newPassword, int loggedUserID);
+    bool addUserToXMLFile(User user);
+    void changeLoggedUserPasswordInXMLFile(string newPassword, int loggedInUserID);
 };
 
 #endif

@@ -1,14 +1,14 @@
 #ifndef USER_H
 #define USER_H
+
 #include <iostream>
 
 using namespace std;
 
-class User
-{
+class User {
     string name;
     string lastname;
-    int Id;
+    int UserID;
     string login;
     string password;
 
@@ -16,17 +16,14 @@ public:
 
     void setName (string newName);
     void setLastname (string newLastname);
-    void setId (int newId);
+    void setUserID (int newUserID);
     void setLogin (string newLogin);
     void setPassword (string newPassword);
 
     string getName();
     string getLastname();
-    int getId();
+    int getUserID();
     string getLogin();
     string getPassword();
-
-
 };
-
 #endif

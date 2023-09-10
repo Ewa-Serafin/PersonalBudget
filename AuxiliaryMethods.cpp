@@ -2,15 +2,18 @@
 
 string AuxiliaryMethods::readLine() {
     string input = "";
+    cin.sync();
     getline(cin, input);
     return input;
 }
 
-string AuxiliaryMethods::convertIntToString(int number) {
-    ostringstream ss;
-    ss << number;
-    string str = ss.str();
-    return str;
+string AuxiliaryMethods::replaceCommaWithDot(string& text) {
+    for (size_t i = 0; i < text.length(); i++) {
+        if (text[i] == ',') {
+            text[i] = '.';
+        }
+    }
+    return text;
 }
 
 char AuxiliaryMethods::readCharacter() {
@@ -29,23 +32,22 @@ char AuxiliaryMethods::readCharacter() {
     return character;
 }
 
- string AuxiliaryMethods::dateToDispalyFormat(string date)
-{
-    if (date.length() != 8)
-        return date;
-
-    string year = date.substr(0, 4);
-    string month = date.substr(4, 2);
-    string day = date.substr(6, 2);
-
-    return day + "-" + month + "-" + year;
+string AuxiliaryMethods::convertIntToString (int number ) {
+    ostringstream ss;
+    ss << number;
+    return ss.str();
 }
 
-string AuxiliaryMethods::dateToStoreFormat(string date)
-{
-    string dateToStore = "";
+string AuxiliaryMethods::convertDoubleToString(double number) {
+    ostringstream ss;
+    ss << fixed << setprecision(2) << number;
+    return ss.str();
+}
 
-    dateToStore = date.substr(0, 4) + date.substr(5, 2) + date.substr(8, 2);
+int AuxiliaryMethods::convertStringToInt(string number) {
+    int intNumber;
+    istringstream iss(number);
+    iss >> intNumber;
 
-    return dateToStore;
+    return intNumber;
 }

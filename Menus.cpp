@@ -28,6 +28,7 @@ char Menus::chooseOptionFromUserMenu() {
     cout << "3. Balance of current month" << endl;
     cout << "4. Balance from previous month" << endl;
     cout << "5. Balance from selected period" << endl;
+    cout << "---------------------------" << endl;
     cout << "6. Change password" << endl;
     cout << "7. Log out" << endl;
     cout << "---------------------------" << endl;

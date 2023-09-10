@@ -1,14 +1,13 @@
 #include "OperationXML.h"
 
-void OperationXML::addOperationToXMLFile(Operation operation)
-{
+bool OperationXML::addOperationToXMLFile(Operation &operation) {
     CMarkup xml;
 
-    xml.Load(operationsXMLFileName + ".xml");
-    if (!XMLFileExists(operationsXMLFileName))
-    {
+    xml.Load(getXMLFileName());
+    if (!XMLFileExists(getXMLFileName())) {
         xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         xml.AddElem("Operations");
+        xml.Save(getXMLFileName());
     }
 
     xml.FindElem();
@@ -16,9 +15,10 @@ void OperationXML::addOperationToXMLFile(Operation operation)
 
     xml.AddElem("Operation");
     xml.IntoElem();
-    xml.AddElem("OperationID", AuxiliaryMethods::convertIntToString(operation.getOperationID()));
+
+    xml.AddElem("OperationID", AuxiliaryMethods::convertIntToString(getLastOperationID(operation.getUserID()) + 1));
     xml.AddElem("UserID", AuxiliaryMethods::convertIntToString(operation.getUserID()));
-    xml.AddElem("Date", AuxiliaryMethods::dateToDispalyFormat(to_string(operation.getDate())));
+    xml.AddElem("Date", DateMethods::convertIntDateToStringWithDashes(operation.getDate()));
     xml.AddElem("Item", operation.getItem());
 
     double amount = operation.getAmount();
@@ -27,17 +27,19 @@ void OperationXML::addOperationToXMLFile(Operation operation)
     string truncatedAmount = amountString.substr(0, amountString.find(delimiter) + 3);
     xml.AddElem("Amount", truncatedAmount);
 
-    xml.Save(operationsXMLFileName + ".xml");
+    xml.Save(getXMLFileName());
+    return true;
 }
 
-int OperationXML::getLastOperationID()
-{
+int OperationXML::getLastOperationID(const int loggedInUserId) {
+
+    Operation operation;
     CMarkup xml;
     int temp = 0;
 
-    xml.Load(operationsXMLFileName + ".xml");
-    if (!XMLFileExists(operationsXMLFileName))
-    {
+    xml.Load(getXMLFileName());
+
+    if (!XMLFileExists(getXMLFileName())) {
         lastOperationID = 0;
         return lastOperationID;
     }
@@ -46,27 +48,37 @@ int OperationXML::getLastOperationID()
     xml.FindElem();
     xml.IntoElem();
 
-    while (xml.FindElem("Operation"))
-    {
+    while (xml.FindElem("Operation")) {
         xml.FindChildElem("OperationID");
-        int operationID = stoi(xml.GetChildData());
-        temp = max(temp, operationID);
+        operation.setOperationID(atoi(xml.GetChildData().c_str()));
+        xml.ResetChildPos();
+
+        xml.FindChildElem("UserID");
+        operation.setUserID(atoi(xml.GetChildData().c_str()));
+
+        if (operation.getUserID() != loggedInUserId) {
+            continue;
+        }
+
+        temp = max(temp,  operation.getOperationID());
         xml.ResetChildPos();
     }
 
     lastOperationID = temp;
-    xml.Save(operationsXMLFileName + ".xml");
+    xml.Save(getXMLFileName());
+
     return lastOperationID;
 }
 
-vector<Operation> OperationXML::loadOperationsFromXMLFile()
-{
+vector<Operation> OperationXML::loadOperationsFromXMLFile(const int loggedInUserId) {
+
     vector<Operation> operations;
+    Operation operation;
     CMarkup xml;
 
-    xml.Load(operationsXMLFileName + ".xml");
-    if (!XMLFileExists(operationsXMLFileName))
-    {
+    xml.Load(getXMLFileName());
+
+    if (!xml.Load(getXMLFileName())) {
         xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         xml.AddElem("Operations");
     }
@@ -75,33 +87,41 @@ vector<Operation> OperationXML::loadOperationsFromXMLFile()
     xml.FindElem();
     xml.IntoElem();
 
-    while (xml.FindElem("Operation"))
-    {
+    while (xml.FindElem("Operation")) {
+
         xml.FindChildElem("OperationID");
-        int operationID = stoi(xml.GetChildData());
+        operation.setOperationID(atoi(xml.GetChildData().c_str()));
         xml.ResetChildPos();
 
         xml.FindChildElem("UserID");
-        int userID = stoi(xml.GetChildData());
+        string userStr = xml.GetChildData();
+        int convertedUser = AuxiliaryMethods::convertStringToInt(userStr);
+        operation.setUserID(convertedUser);
+        if (operation.getUserID() != loggedInUserId) {
+            continue;
+        }
         xml.ResetChildPos();
 
         xml.FindChildElem("Date");
-        string date = xml.GetChildData();
+        string dateStr = xml.GetChildData();
+        int convertedDate = DateMethods::convertStringDateToInt(dateStr);
+        operation.setDate(convertedDate);
         xml.ResetChildPos();
 
         xml.FindChildElem("Item");
-        string item = xml.GetChildData();
+        string itemFromXML = xml.GetChildData();
+        operation.setItem(itemFromXML);
         xml.ResetChildPos();
 
         xml.FindChildElem("Amount");
-        double amount = stod(xml.GetChildData());
+        operation.setAmount(stod(xml.GetChildData()));
         xml.ResetChildPos();
 
-        Operation operation(operationID, userID, stoi(AuxiliaryMethods::dateToStoreFormat(date)), item, amount);
         operations.push_back(operation);
     }
 
-    xml.Save(operationsXMLFileName + ".xml");
+    xml.Save(getXMLFileName());
 
     return operations;
 }
+

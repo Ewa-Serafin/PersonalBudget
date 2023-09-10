@@ -11,10 +11,11 @@ class XMLFile {
     const string XML_FILE_NAME;
 
 public:
+
     XMLFile(string XMLFileName) :  XML_FILE_NAME(XMLFileName) {}
 
     bool XMLFileExists(string XMLFileName);
     string getXMLFileName();
 };
-
 #endif
+

@@ -1,6 +1,10 @@
 bin/
 obj/
 diagram/
-.xml*
+Users.xml
 PersonalBudget.mm
 personalBudget.*
+Income.xml
+Expenses.xml
+PersonalBudget.*
+*.xml
